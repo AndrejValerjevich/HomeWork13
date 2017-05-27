@@ -35,6 +35,7 @@ if (isset($_POST['add_form_visibility'])) {
 }
 #endregion
 
+#region //Добавление записи
 if ($add_allowence == true && isset($_POST['description'])) {
     $description = $_POST['description'];
     $last_id = mysqli_insert_id($sql_link);
@@ -43,7 +44,17 @@ if ($add_allowence == true && isset($_POST['description'])) {
     $statement = $pdo->prepare($sql);
     $statement->execute();
 }
+#endregion
 
+#region //Запрос на изменение записи
+if (isset($_POST['change'], $_POST['description'], $_GET['id'])) {
+    $description = $_POST['description'];
+    $id = $_GET['id'];
+    $sql = "UPDATE tasks SET description = '$description' WHERE id = '$id'";
+    $statement = $pdo->prepare($sql);
+    $statement->execute();
+}
+#endregion
 
 #region //Запросы на изменение статуса записей в таблице
 if (isset($_GET['status'], $_GET['id'])) {
@@ -61,17 +72,42 @@ if (isset($_GET['status'], $_GET['id'])) {
 }
 #endregion
 
+#region //Удаление записи из таблицы
 if (isset($_GET['id'], $_GET['action']) && $_GET['action']=='delete') {
     $id = $_GET['id'];
     $sql = "DELETE FROM tasks WHERE id = '$id'";
     $statement = $pdo->prepare($sql);
     $statement->execute();
 }
+#endregion
 
-$sql = "SELECT * FROM tasks LIMIT 20"; /*WHERE name LIKE '%$name%' AND isbn LIKE '%$isbn%' AND author LIKE '%$author%'*/
-$statement = $pdo->prepare($sql);
-$statement->execute();
-
+#region //Сортировки по трем полям
+$sort_type = "asc";
+$sort_field = null;
+if (isset($_GET['sort'], $_GET['field'])) {
+    $sort_type = $_GET['sort'];
+    $sort_field = $_GET['field'];
+    if ($sort_type == "asc") {
+        $sql = "SELECT * FROM tasks ORDER BY $sort_field ASC";
+        $statement = $pdo->prepare($sql);
+        $statement->execute();
+        $arrow = "<img src='image/up_sort.png' class='sort-arrow'";
+        $sort_type = "desc";
+    } elseif ($sort_type == "desc") {
+        $sql = "SELECT * FROM tasks ORDER BY $sort_field DESC";
+        $statement = $pdo->prepare($sql);
+        $statement->execute();
+        $arrow = "<img src='image/down_sort.png' class='sort-arrow'";
+        $sort_type = "asc";
+    }
+} else {
+#endregion
+#region //Запрос на выборку из таблицы если не выбрана сортировка
+    $sql = "SELECT * FROM tasks";
+    $statement = $pdo->prepare($sql);
+    $statement->execute();
+}
+#endregion
 
 ?>
 
@@ -91,8 +127,8 @@ $statement->execute();
             <li class="header-container__menu__item"><a class="header-container-link logo-link" href="index.php?page=0">TODOO</a></li>
             <li class="header-container__menu__item"><a class="header-container-link" href="index.php?page=0">Main</a></li>
             <li class="header-container__menu__item"><a class="header-container-link" href="index.php?page=1">My tasks</a></li>
-            <li class="header-container__menu__item <?= $calendar; ?>"><a href="/"><img src="image/calendar.png" width="70" height="70"></a></li>
-            <li class="header-container__menu__item log-reg-item"><a class="header-container-link log-reg-item" href="/">Log In</a></li>
+            <li class="header-container__menu__item <?= $calendar; ?>"><a href=""><img src="image/calendar.png" width="70" height="70"></a></li>
+            <li class="header-container__menu__item log-reg-item"><a class="header-container-link log-reg-item" href="">Log In</a></li>
         </ul>
 </header>
 <hr class="horizontal-line">
@@ -117,9 +153,9 @@ $statement->execute();
         </form>
         <table class="main-container-table">
             <tr class="table-row">
-                <td class="table-cell table-header first-column">Description</td>
-                <td class="table-cell table-header second-column">Status</td>
-                <td class="table-cell table-header third-column">Adding Date</td>
+                <td class="table-cell table-header first-column"><a class="main-container-table__header-link" href="?page=1&sort=<?= $sort_type; ?>&field=description">Description<?php if ($sort_field == 'description') echo $arrow; ?></a></td>
+                <td class="table-cell table-header second-column"><a class="main-container-table__header-link" href="?page=1&sort=<?= $sort_type; ?>&field=is_done">Status<?php if ($sort_field == 'is_done') echo $arrow; ?></a></td>
+                <td class="table-cell table-header third-column"><a class="main-container-table__header-link" href="?page=1&sort=<?= $sort_type; ?>&field=date_added">Add date<?php if ($sort_field == 'date_added') echo $arrow; ?></a></td>
                 <td class="table-cell table-header fourth-column">TO-DO</td>
             </tr>
             <?php foreach ($statement as $value) {
@@ -131,15 +167,20 @@ $statement->execute();
                 } else { $is_done = 1; $task_status_text = "obliterated-text"; } ?>
                 <tr class="table-row">
                     <?php if (isset($_GET['id'], $_GET['action']) && $id == $_GET['id'] && $_GET['action'] == 'change') { ?>
-                    <form>
-                        <input type="text" value="<?= $description; ?>">
-                    </form>
+                        <td class="table-cell first-column">
+                            <form method="POST" action="index.php?page=1&id=<?= $id;?>">
+                                <input type="text" name="description" value="<?= $description; ?>" class="main-container-fieldset__input-text__into-table">
+                                <button class="button change-button" name="change">Submit</button>
+                            </form>
+                        </td>
                     <?php } else { ?>
                     <td class="table-cell first-column"><span class="<?= $task_status_text; ?>"><?= htmlspecialchars($value['description'], ENT_QUOTES); ?></span></td>
                     <?php } ?>
                     <td class="table-cell second-column">
-                        <p class="p-center"><a href="?page=1&status=<?= $is_done;?>&id=<?= $id;?>"><?php if ($is_done == 0) {?> <img src="image/notdone.png" width="80" height="80"> <?php } else { ?> <img src="image/done.png" width="80" height="80"> <?php } ?>
-                        </a></p>
+                        <p class="p-center">
+                            <a title="Нажмите чтобы изменить статус" href="?page=1&status=<?= $is_done;?>&id=<?= $id;?>"><?php if ($is_done == 0) {?> <img src="image/notdone.png" width="80" height="80"> <?php } else { ?> <img src="image/done.png" width="80" height="80"> <?php } ?>
+                            </a>
+                        </p>
                     </td>
                     <td class="table-cell third-column"><?= htmlspecialchars($value['date_added'], ENT_QUOTES); ?></td>
                     <td class="table-cell fourth-column">

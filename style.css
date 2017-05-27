@@ -54,6 +54,7 @@ body {
     margin: auto;
     width: 100%;
     height: 100px;
+    text-shadow: 1px 1px 1px black, 0 0 1em gray;
 }
 
 .header-container__menu {
@@ -119,6 +120,7 @@ body {
     line-height: 300px;
     font-size: 7em;
     text-align: center;
+    text-shadow: 1px 1px 1px black, 0 0 1em gray;
 }
 
 .main-container-fieldset__text-h2 {
@@ -139,6 +141,7 @@ body {
 }
 
 .main-container-fieldset__arrow {
+    margin-top: 100px;
     width: 600px;
     height: 150px;
     -moz-transition: all 0.5s linear;
@@ -146,7 +149,7 @@ body {
     -webkit-transition: all 0.5s linear;
 }
 .main-container-fieldset__arrow:hover {
-    margin-top: 50px;
+    margin-top: 150px;
     width: 500px;
     height: 150px;
     cursor: pointer;
@@ -205,7 +208,7 @@ body {
     font-size: 2em;
     display: block;
     float: left;
-    margin-left: 70px;
+    margin-left: 90px;
 }
 .to-do-menu__item:hover {
     color: black;
@@ -218,6 +221,18 @@ body {
 }
 .to-do-menu__item-link:hover {
     color: black;
+}
+
+.main-container-table__header-link {
+    color: black;
+    text-decoration: none;
+    -moz-transition: all 0.8s;
+    -o-transition: all 0.8s;
+    -webkit-transition: all 0.8s;
+}
+.main-container-table__header-link:hover {
+    font-weight: 600;
+    color: #0da5f3;
 }
 
 /*-----------Формы и кнопки------------*/
@@ -260,6 +275,12 @@ body {
     height: 80px;
     cursor: pointer;
 }
+.change-button {
+    margin: 2px;
+    width: 200px;
+    height: 80px;
+    font-size: 1.6em;
+}
 
 .main-container-fieldset__input-text {
     width: 700px;
@@ -267,6 +288,14 @@ body {
     border: solid #0da5f3 1px;
     border-radius: 10px;
     font-size: 2em;
+}
+
+.main-container-fieldset__input-text__into-table {
+    width: 735px;
+    height: 80px;
+    border: solid #0da5f3 1px;
+    border-radius: 10px;
+    font-size: 1.6em;
 }
 
 /*Скрытие блока добавления задания*/
@@ -284,5 +313,10 @@ body {
     visibility: visible;
 }
 
-
+/*---------Работа со стрелочками*/
+.sort-arrow {
+    width: 45px;
+    height: 45px;
+    margin-left: 15px;
+}
 
