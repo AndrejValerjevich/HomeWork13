@@ -1,0 +1,288 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-weight: 100;
+    zoom: 88%;
+    font-family: Ubuntu;
+    outline: none;
+}
+
+@font-face {
+    font-family: Ubuntu; /* Имя шрифта */
+    src: url(font/Ubuntu-L.ttf); /* Путь к файлу со шрифтом */
+}
+
+body {
+    width: 1000px;
+    margin: auto;
+}
+
+.clearfix {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.blue-color-span {
+    letter-spacing: 5px;
+    color: #0da5f3;
+}
+
+.obliterated-text {
+    font-size: 1.5em;
+    text-decoration: line-through;
+}
+
+.normal-text {
+    font-size: 1.5em;
+}
+
+.p-center {
+    text-align: center;
+}
+
+.horizontal-line {
+    border: none; /* Убираем границу для браузера Firefox */
+    color: #0da5f3; /* Цвет линии для остальных браузеров */
+    background-color: #0da5f3; /* Цвет линии для браузера Firefox и Opera */
+    height: 1px;
+}
+
+/*--------------Работа с Header-------------*/
+.header-container {
+    display: block;
+    margin: auto;
+    width: 100%;
+    height: 100px;
+}
+
+.header-container__menu {
+    margin: 0;
+    padding: 30px;
+}
+
+.header-container__menu__item {
+    display: block;
+    float: left;
+}
+
+.header-container-link {
+    color: black;
+    text-decoration: none;
+    margin: auto;
+    font-size: 4em;
+    margin-left: 60px;
+}
+.logo-link {
+    margin-left: 0;
+    letter-spacing: 5px;
+    color: #0da5f3;
+}
+
+.header-container-link:hover {
+    color: #0da5f3;
+}
+
+.calendar-visible {
+    visibility: visible;
+    margin-left: 60px;
+}
+.calendar-hidden {
+    visibility: hidden;
+}
+
+.log-reg-item {
+    color: #0da5f3;
+    float: right;
+}
+.log-reg-item:hover {
+    color: black;
+}
+
+/*--------------Работа с контентом--------------*/
+.main-container {
+    height: 350px;
+    display: block;
+}
+
+.main-container-fieldset {
+    margin: 10px auto;
+    width: 80%;
+    border: none;
+}
+
+.sub-page {
+    width: 90%;
+}
+
+.main-container-fieldset__text-h1 {
+    line-height: 300px;
+    font-size: 7em;
+    text-align: center;
+}
+
+.main-container-fieldset__text-h2 {
+    line-height: 100px;
+    font-size: 3.5em;
+    text-align: center;
+
+}
+
+.main-container-fieldset__text-h3 {
+    font-size: 3em;
+    text-align: center;
+}
+
+.arrow-text {
+    margin-top: 100px;
+    font-size: 3.5em;
+}
+
+.main-container-fieldset__arrow {
+    width: 600px;
+    height: 150px;
+    -moz-transition: all 0.5s linear;
+    -o-transition: all 0.5s linear;
+    -webkit-transition: all 0.5s linear;
+}
+.main-container-fieldset__arrow:hover {
+    margin-top: 50px;
+    width: 500px;
+    height: 150px;
+    cursor: pointer;
+}
+
+/*--------------Работа с таблицами---------------*/
+.main-container-table {
+    width: 100%;
+    border-spacing: 5px;
+    padding: 10px;
+    margin: auto;
+}
+
+.table-row {
+    border: solid #0da5f3 2px;
+    height: 2em;
+}
+
+.table-cell {
+    font-size: 2em;
+    border: solid #0da5f3 2px;
+    font-weight: 800;
+    text-align: left;
+    padding: 10px 5px;
+    width: 50%;
+}
+
+.table-header {
+    text-align: center;
+    font-size: 3em;
+}
+
+.first-column {
+    width: 40%;
+}
+
+.second-column {
+    width: 10%;
+}
+
+.third-column {
+    width: 20%;
+}
+
+.fourth-column {
+    width: 30%;
+}
+
+.to-do-menu {
+    margin: 0;
+    padding: 10px;
+}
+
+.to-do-menu__item {
+    color: #0da5f3;
+    font-size: 2em;
+    display: block;
+    float: left;
+    margin-left: 70px;
+}
+.to-do-menu__item:hover {
+    color: black;
+    cursor: pointer;
+}
+
+.to-do-menu__item-link {
+    color: #0da5f3;
+    text-decoration: none;
+}
+.to-do-menu__item-link:hover {
+    color: black;
+}
+
+/*-----------Формы и кнопки------------*/
+.button {
+    background-color: #0da5f3;
+    border: solid #0da5f3 1px;
+    border-radius: 10px;
+    font-size: 2em;
+    font-weight: 500;
+    color: white;
+    -moz-transition: all 0.5s;
+    -o-transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+}
+
+.button:hover {
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.main-container-fieldset__button-form {
+    width: 99%;
+    display: block;
+}
+
+.add-button {
+    width: 200px;
+    height: 50px;
+    display: block;
+    float: right;
+}
+.hide-button {
+    width: 200px;
+    height: 50px;
+    margin: 2px;
+}
+.status-button {
+    border: none;
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+}
+
+.main-container-fieldset__input-text {
+    width: 700px;
+    height: 50px;
+    border: solid #0da5f3 1px;
+    border-radius: 10px;
+    font-size: 2em;
+}
+
+/*Скрытие блока добавления задания*/
+.main-container-fieldset__add-form-hidden {
+    margin-left: 1%;
+    display: block;
+    float: left;
+    visibility: hidden;
+}
+
+.main-container-fieldset__add-form-visible {
+    margin-left: 1%;
+    display: block;
+    float: left;
+    visibility: visible;
+}
+
+
+
