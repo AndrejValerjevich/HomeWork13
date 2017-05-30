@@ -37,47 +37,47 @@ if (isset($_POST['add_form_visibility'])) {
 
 #region //Добавление записи
 if ($add_allowence == true && isset($_POST['description'])) {
-    $description = $_POST['description'];
+    $description = (string)$_POST['description'];
     $last_id = mysqli_insert_id($sql_link);
     $date = date('Y-m-d h:i:s');
-    $sql = "INSERT INTO tasks (id, description, is_done, date_added) VALUES ('$last_id', '$description', 0, '$date')";
+    $sql = "INSERT INTO tasks (id, description, is_done, date_added) VALUES ('$last_id', ?, 0, '$date')";
     $statement = $pdo->prepare($sql);
-    $statement->execute();
+    $statement->execute(["{$description}"]);
 }
 #endregion
 
 #region //Запрос на изменение записи
 if (isset($_POST['change'], $_POST['description'], $_GET['id'])) {
-    $description = $_POST['description'];
+    $description = (string)$_POST['description'];
     $id = $_GET['id'];
-    $sql = "UPDATE tasks SET description = '$description' WHERE id = '$id'";
+    $sql = "UPDATE tasks SET description = ? WHERE id = '$id'";
     $statement = $pdo->prepare($sql);
-    $statement->execute();
+    $statement->execute(["{$description}"]);
 }
 #endregion
 
 #region //Запросы на изменение статуса записей в таблице
 if (isset($_GET['status'], $_GET['id'])) {
-    $status = $_GET['status'];
-    $id = $_GET['id'];
+    $status = (int)$_GET['status'];
+    $id = (int)$_GET['id'];
     if ($status == 0) {
-        $sql = "UPDATE tasks SET is_done = '1' WHERE id = '$id'";
+        $sql = "UPDATE tasks SET is_done = '1' WHERE id = ?";
         $statement = $pdo->prepare($sql);
-        $statement->execute();
-    } else {
-        $sql = "UPDATE tasks SET is_done = '0' WHERE id = '$id'";
+        $statement->execute(["{$id}"]);
+    } else {$id
+        $sql = "UPDATE tasks SET is_done = '0' WHERE id = ?";
         $statement = $pdo->prepare($sql);
-        $statement->execute();
+        $statement->execute(["{$id}"]);
     }
 }
 #endregion
 
 #region //Удаление записи из таблицы
 if (isset($_GET['id'], $_GET['action']) && $_GET['action']=='delete') {
-    $id = $_GET['id'];
-    $sql = "DELETE FROM tasks WHERE id = '$id'";
+    $id = (int)$_GET['id'];
+    $sql = "DELETE FROM tasks WHERE id = ?";
     $statement = $pdo->prepare($sql);
-    $statement->execute();
+    $statement->execute(["{$id}"]);
 }
 #endregion
 
@@ -86,17 +86,17 @@ $sort_type = "asc";
 $sort_field = null;
 if (isset($_GET['sort'], $_GET['field'])) {
     $sort_type = $_GET['sort'];
-    $sort_field = $_GET['field'];
+    $sort_field = (string)$_GET['field'];
     if ($sort_type == "asc") {
-        $sql = "SELECT * FROM tasks ORDER BY $sort_field ASC";
+        $sql = "SELECT * FROM tasks ORDER BY ? ASC";
         $statement = $pdo->prepare($sql);
-        $statement->execute();
+        $statement->execute(["{$sort_field}"]);
         $arrow = "<img src='image/up_sort.png' class='sort-arrow'";
         $sort_type = "desc";
     } elseif ($sort_type == "desc") {
-        $sql = "SELECT * FROM tasks ORDER BY $sort_field DESC";
+        $sql = "SELECT * FROM tasks ORDER BY ? DESC";
         $statement = $pdo->prepare($sql);
-        $statement->execute();
+        $statement->execute(["{$sort_field}"]);
         $arrow = "<img src='image/down_sort.png' class='sort-arrow'";
         $sort_type = "asc";
     }
